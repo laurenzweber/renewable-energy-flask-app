@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Average Renewable Energy in Europe</title>
+
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f4f4f9;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #02024d;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 10px;
+            transition: 0.2s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-button:hover {
+            background: #8BA6C1;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .description {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            max-width: 700px;
+            margin: 0 auto 24px auto;
+        }
+
+        .chart {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="/" class="back-button">Back</a>
+
+    <h2>Average Renewable Energy in Europe</h2>
+    <p class="description">
+        This chart shows how the average share of renewable energy in Europe changes over time.
+        Each point represents the average value for all countries in the dataset for that year.
+        Use the line to get a quick sense of the overall European trend.
+    </p>
+
+    <div class="chart">
+        {{ plot_html | safe }}
+    </div>
+
+</div>
+</body>
+</html>

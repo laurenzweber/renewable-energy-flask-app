@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Growth in Renewable Energy</title>
+
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f4f4f9;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #02024d;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 10px;
+            transition: 0.2s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-button:hover {
+            background: #8BA6C1;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .description {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #555;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <a href="/" class="back-button">Back</a>
+
+    <h2>Progress in Renewable Energy (2014–2023)</h2>
+
+    <div class="description">
+        This chart shows the progress in renewable energy share for each country
+        between 2014 and 2023. Countries with positive growth appear in green,
+        while those that decreased appear in red.
+    </div>
+
+    <div class="chart-card">
+        {{ plot_html | safe }}
+    </div>
+
+</div>
+</body>
+</html>

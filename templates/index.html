@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Europe Renewable Energy Dashboard</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f4f4f9;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .hero-text {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .hero-text h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .hero-text p {
+            line-height: 1.6;
+        }
+
+        .hero-image img {
+            width: 80%;
+            max-width: 600px;
+            border-radius: 18px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        a.button {
+            background: #02024d;
+            color: white;
+            padding: 16px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.2s;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        a.button:hover {
+            background: #8BA6C1;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Europe Renewable Energy Dashboard</h1>
+
+    <div class="hero-text">
+        <h2>About this project</h2>
+        <p>
+            This interactive dashboard visualises renewable energy data across European countries. 
+            Our goal is to make it easy to explore trends, compare nations, and understand how Europe is progressing toward its sustainability targets.
+            Use the tools and charts to dive deeper into the data and discover meaningful insights.
+        </p>
+    </div>
+
+    <div class="hero-image">
+        <img src="{{ url_for('static', filename='img/europe.png') }}" alt="Europe map">
+    </div>
+
+    <div class="buttons">
+        <a class="button" href="/chart3">Overview Europe</a>
+        <a class="button" href="/chart2">Comparison by Country</a>
+        <a class="button" href="/chart4">Progress</a>
+        <a class="button" href="/renewables">EU Target</a>
+        <a class="button" href="/chart5">Overview Sectors</a>
+        <a class="button" href="/chart6">Comparison by Sector</a>
+    </div>
+    
+
+</div>
+</body>
+</html>

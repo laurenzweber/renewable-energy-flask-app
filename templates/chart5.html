@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sector Share by Country</title>
+
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f4f4f9;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #02024d;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 10px;
+            transition: 0.2s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .back-button:hover { background: #8BA6C1; }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .description {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            max-width: 700px;
+            margin: 0 auto 24px auto;
+        }
+
+        .controls {
+            margin: 0 auto 30px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .controls form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            align-items: flex-end;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .controls label {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .controls select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            min-width: 160px;
+        }
+
+        .controls button {
+            padding: 10px 20px; 
+            border-radius: 10px; 
+            background: #02024d;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+        }
+
+        .controls button:hover { background: #8BA6C1; }
+
+        .hint {
+            width: 100%;
+            font-size: 12px;
+            margin-top: 8px;
+            color: #666;
+        }
+
+        .chart-block {
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="/" class="back-button">Back</a>
+
+    <h2>Share of Renewable Energy by Sector</h2>
+
+    <p class="description">
+        Compare how renewable energy is distributed across transport, electricity and heating for two selected countries.
+    </p>
+
+    <div class="controls">
+        <form method="get" action="/chart5">
+            <div class="field-group">
+                <label for="year">Year:</label>
+                <select name="year" id="year">
+                    {% for y in years %}
+                        <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="country1">Country 1:</label>
+                <select name="country1" id="country1">
+                    {% for c in countries %}
+                        <option value="{{ c }}" {% if c == selected_country1 %}selected{% endif %}>{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="country2">Country 2:</label>
+                <select name="country2" id="country2">
+                    {% for c in countries %}
+                        <option value="{{ c }}" {% if c == selected_country2 %}selected{% endif %}>{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit">Update</button>
+
+            <div class="hint">
+                Select a year and two countries to compare their sector distribution.
+            </div>
+        </form>
+    </div>
+
+    <div class="chart-block">
+        {{ plot_html_group | safe }}
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Country Comparison</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
+
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #f4f4f9;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #02024d;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 10px;
+            transition: 0.2s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-button:hover {
+            background: #8BA6C1;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+  
+        .controls {
+            margin: 0 auto 30px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .controls label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .hint {
+            font-size: 12px;
+            margin-top: 4px;
+            color: #666;
+        }
+
+        .controls button {
+            margin-top: 12px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            background: #02024d;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .controls button:hover {
+            background: #8BA6C1;
+        }
+
+        .chart {
+            margin-top: 20px;
+        }
+
+        .choices__list--multiple .choices__item {
+            position: relative;
+            padding-right: 30px !important;
+            background-color: #e4edff !important;   
+            border: 1px solid #02024d !important;   
+            color: #02024d !important;               
+            border-radius: 12px !important;
+            padding-left: 12px !important;
+            padding-top: 6px !important;
+            padding-bottom: 6px !important;
+            font-weight: 500;
+        }
+        
+        .choices__list--multiple .choices__item .choices__button {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+            padding: 0;
+            width: 18px;
+            height: 18px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            background-image: none !important;
+            text-indent: 0 !important;
+            font-size: 0 !important;  /* göm originaltexten */
+            opacity: 1 !important;
+        }
+
+        .choices__list--multiple .choices__item .choices__button::before {
+            content: '✕';
+            font-size: 14px;
+            line-height: 18px;
+            color: #444;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="/" class="back-button">Back</a>
+
+    <h2>Comparison by Country</h2>
+    <p class="description">
+        This chart lets you compare renewable energy development across several countries
+        over time. Use the selector to add or remove countries and explore how their
+        trends differ.
+    </p>
+
+    <div class="controls">
+        <form method="get" action="/chart2">
+            <label for="countries">Select countries:</label>
+            <select name="countries" id="countries" multiple>
+                {% for c in countries %}
+                    <option value="{{ c }}"
+                            {% if c in selected_countries %}selected{% endif %}>
+                        {{ c }}
+                    </option>
+                {% endfor %}
+            </select>
+            <div class="hint">
+                Choose one or more countries. Use the search field in the box to find a country.
+            </div>
+
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+    <div class="chart">
+        {{ plot_html | safe }}
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script>
+    const element = document.getElementById('countries');
+    const choices = new Choices(element, {
+        removeItemButton: true,
+        searchEnabled: true,
+        searchPlaceholderValue: 'Search countries',
+        placeholder: true,
+        placeholderValue: 'Select countries'
+    });
+</script>
+
+</body>
+</html>
