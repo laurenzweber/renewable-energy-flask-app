@@ -9,8 +9,8 @@ app = Flask(__name__)
 # ---------------------------------------------------------
 excel_file = "Data.xlsx"
 
-df1 = pd.read_excel(excel_file, sheet_name="General")           
-df_transport = pd.read_excel(excel_file, sheet_name="Transport") 
+df1 = pd.read_excel(excel_file, sheet_name="General")
+df_transport = pd.read_excel(excel_file, sheet_name="Transport")
 df_electricity = pd.read_excel(excel_file, sheet_name="Electricity")
 df_heating = pd.read_excel(excel_file, sheet_name="Heating.cooling")
 
@@ -20,7 +20,7 @@ df_heating = pd.read_excel(excel_file, sheet_name="Heating.cooling")
 df1.columns = df1.columns.str.strip()
 
 country_col = "Countries"
-year_cols = df1.columns[1:] 
+year_cols = df1.columns[1:]
 
 df1[year_cols] = (
     df1[year_cols]
@@ -48,7 +48,7 @@ def index():
 # ---------------------------------------------------------
 @app.route("/renewables")
 def renewables():
-    value_col = "2023"  
+    value_col = "2023"
 
     data = df1[[country_col, value_col]].copy()
     data = data.rename(columns={
@@ -86,7 +86,7 @@ def renewables():
 
     fig.update_layout(
         height=1500,
-        xaxis_title="Renewable Energy Share (%)",
+        xaxis_title="Renewable energy share (in %)",
         yaxis_title=None,
         legend_title=None,
         template="plotly_white"
@@ -110,15 +110,19 @@ def chart2():
 
     data_t = subset.T
     data_t.index.name = "Year"
-    data_t = data_t.reset_index() 
+    data_t = data_t.reset_index()
 
     fig = px.bar(
         data_t,
         x="Year",
-        y=selected_countries,   
+        y=selected_countries,   # wide form
         barmode="group",
         title=None,
-        labels={"value": ""},
+        labels={
+            "Year": "Year",
+            "value": "Share in %",
+            "variable": "Country"
+        },
         color_discrete_sequence=[
             "#A7C7E7",
             "#8ABAD3",
@@ -135,9 +139,12 @@ def chart2():
         width=900,
         height=600,
         legend_title=None,
-        xaxis_title=None,
-        yaxis_title=None,
+        xaxis_title="Year",
+        yaxis_title="Share in %",
     )
+
+    # Prozentzeichen an der Skala der y-Achse
+    fig.update_yaxes(ticksuffix="%")
 
     plot_html = fig.to_html(full_html=False, include_plotlyjs="cdn")
 
@@ -148,10 +155,10 @@ def chart2():
         selected_countries=selected_countries,
     )
 
+
 # ---------------------------------------------------------
 # VISUALISATION 3: Overview Europe
 # ---------------------------------------------------------
-
 @app.route("/chart3")
 def chart3():
     df_avg = average_renewable_energy_europe.reset_index()
@@ -170,8 +177,12 @@ def chart3():
     fig.update_layout(
         template="plotly_white",
         height=500,
-        margin=dict(l=30, r=30, t=10, b=40)
+        margin=dict(l=30, r=30, t=10, b=40),
+        xaxis_title="Year",
+        yaxis_title="Average share in %",
     )
+
+    fig.update_yaxes(ticksuffix="%")
 
     fig.update_traces(
         hovertemplate="Year: %{x}<br>Avg: %{y:.2f}%",
@@ -182,6 +193,7 @@ def chart3():
     plot_html = fig.to_html(full_html=False, include_plotlyjs="cdn")
 
     return render_template("chart3.html", plot_html=plot_html)
+
 
 # ---------------------------------------------------------
 # VISUALISATION 4: Progress
@@ -209,19 +221,21 @@ def chart4():
             "Negative Growth": "#FAA0A0",  # pastel red
         },
         hover_data={"Countries": False, "growth": ":.2f"},
-        labels={"Countries": "Country", "growth": "Growth (%)"},
+        labels={"Countries": "Country", "growth": "Growth in %"},
         title=None
     )
 
     fig.update_layout(
         xaxis_title="Country",
-        yaxis_title="Growth in Renewable Energy (%)",
+        yaxis_title="Growth in renewable energy (in %)",
         xaxis_tickangle=45,
         legend_title=None,
         height=700,
         template="plotly_white",
         margin=dict(l=40, r=40, t=20, b=40)
     )
+
+    fig.update_yaxes(ticksuffix="%")
 
     plot_html = fig.to_html(full_html=False, include_plotlyjs="cdn")
     return render_template("chart4.html", plot_html=plot_html)
@@ -265,7 +279,11 @@ def chart5():
         color="Country",
         barmode="group",
         title=None,
-        labels={"Value":"Share (%)"},
+        labels={
+            "Sector": "Sector",
+            "Value": "Share in %",
+            "Country": "Country"
+        },
         color_discrete_sequence=["#8ABAD3", "#7FB7A4"]
     )
 
@@ -273,9 +291,12 @@ def chart5():
         template="plotly_white",
         height=600,
         legend_title=None,
+        xaxis_title="Sector",
+        yaxis_title="Share in %",
         margin=dict(l=30, r=30, t=10, b=40)
     )
 
+    fig_group.update_yaxes(ticksuffix="%")
     fig_group.update_traces(hovertemplate="%{y:.2f}%")
 
     plot_html_group = fig_group.to_html(full_html=False, include_plotlyjs="cdn")
@@ -322,7 +343,10 @@ def chart6():
         x="Country",
         y="Value",
         title=None,
-        labels={"Value": ""},
+        labels={
+            "Country": "Country",
+            "Value": "Share in %"
+        },
         color_discrete_sequence=["#A7C7E7"]
     )
 
@@ -330,10 +354,13 @@ def chart6():
         template="plotly_white",
         width=1000,
         height=600,
-        xaxis_title=None,
-        yaxis_title=None,
+        xaxis_title="Country",
+        yaxis_title="Share in %",
         showlegend=False
     )
+
+    # Prozentzeichen an der y-Achse
+    fig.update_yaxes(ticksuffix="%")
 
     plot_html = fig.to_html(full_html=False, include_plotlyjs="cdn")
 
@@ -346,8 +373,9 @@ def chart6():
         selected_sector=selected_sector
     )
 
+
 # ---------------------------------------------------------
-# Run app 
+# Run app
 # ---------------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True)
